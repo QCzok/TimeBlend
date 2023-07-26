@@ -1,16 +1,9 @@
-//
-//  ContentView.swift
-//  TimeBlend
-//
-//  Created by Payback on 24.07.23.
-//
-
 import SwiftUI
 
-struct ContentView: View {
+struct TimeBlendView: View {
     var body: some View {
         VStack {
-            Text("Hello, world!")
+            EventItemList()
         }
         .padding()
     }
@@ -18,6 +11,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        TimeBlendView()
     }
 }
