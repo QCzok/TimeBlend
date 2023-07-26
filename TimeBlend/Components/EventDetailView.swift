@@ -3,8 +3,9 @@
 import SwiftUI
 
 struct EventDetailView: View {
-    let event: EventItem
-
+    
+    @Binding var event: EventItem // Changed to a Binding
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text(event.title)
@@ -34,6 +35,8 @@ struct EventDetailView: View {
                     .font(.subheadline)
             }
             
+            Divider()
+            
             HStack {
                 Image(systemName: "tag")
                     .foregroundColor(.blue)
@@ -43,7 +46,11 @@ struct EventDetailView: View {
             }
             
             HStack {
-                Text(formatDuration(_: event.duration))
+                // Icon for duration
+                Image(systemName: "clock.fill")
+                    .foregroundColor(.blue)
+                
+                Text(String(event.hours) + "h " + String(event.minutes) + "m")
                     .font(.subheadline)
             }
             
@@ -51,21 +58,15 @@ struct EventDetailView: View {
         }
         .padding()
         .navigationBarTitle("Event Detail", displayMode: .inline)
+        .navigationBarItems(trailing: editButton) // Add the "Edit" button
     }
     
-    private func formatDuration(_ duration: Double) -> String {
-        let totalMinutes = Int(duration * 60)
-        let hours = totalMinutes / 60
-        let minutes = totalMinutes % 60
-        
-        if hours > 0 && minutes > 0 {
-            return "\(hours)h \(minutes)m"
-        } else if hours > 0 {
-            return "\(hours)h"
-        } else {
-            return "\(minutes)m"
+    private var editButton: some View {
+        NavigationLink(destination: EditEventView(event: $event)) { // Pass a binding to the editedEvent
+            Text("Edit")
         }
     }
+
     
     private var formattedDate: String {
         let dateFormatter = DateFormatter()
@@ -84,14 +85,3 @@ struct EventDetailView: View {
     }
 }
 
-struct EventDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        EventDetailView(event: EventItem(
-            title: "Birthday Party",
-            description: "Johnny is getting 30",
-            date: Date(),
-            duration: 3.0,
-            type: .privat
-        ))
-    }
-}

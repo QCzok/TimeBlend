@@ -33,6 +33,11 @@ struct EventItemList: View {
         events.remove(atOffsets: offsets)
         saveEventsToUserDefaults()
     }
+    
+    private func moveEvent(from source: IndexSet, to destination: Int) {
+        events.move(fromOffsets: source, toOffset: destination)
+        saveEventsToUserDefaults()
+    }
 
 
     var body: some View {
@@ -55,7 +60,9 @@ struct EventItemList: View {
                             .frame(maxWidth: .infinity)
                         }
                         .listRowSeparator(.hidden)
-                    }.onDelete(perform: deleteEvent) // Enable swipe-to-delete
+                    }
+                    .onDelete(perform: deleteEvent) // Enable swipe-to-delete
+                    .onMove(perform: moveEvent) // Enable drag-and-drop reordering
                 }
                 .listStyle(PlainListStyle())
                 .onAppear {

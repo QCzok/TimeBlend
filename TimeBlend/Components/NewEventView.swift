@@ -7,12 +7,12 @@ struct NewEventView: View {
     @Environment(\.presentationMode) var presentationMode
 
     
-    @State private var newEventTitle = ""
-    @State private var newEventDescription = ""
-    @State private var newEventDate = Date()
-    @State private var newEventDurationHours = 0
-    @State private var newEventDurationMinutes = 0
-    @State private var newEventType: EventType = .work
+    @State var newEventTitle = ""
+    @State var newEventDescription = ""
+    @State var newEventDate = Date()
+    @State var newEventDurationHours = 0
+    @State var newEventDurationMinutes = 0
+    @State var newEventType: EventType = .work
     
     var body: some View {
         NavigationView {
@@ -45,25 +45,9 @@ struct NewEventView: View {
                     }
                     .padding(.horizontal)
 
-                    // Event Duration
-                    HStack {
-                        Image(systemName: "clock.fill")
-                            .foregroundColor(.blue)
-                        Text("Event Duration:")
-                            .foregroundColor(.primary)
-
-                        VStack {
-                            Text("\(newEventDurationHours)h")
-                                Stepper(value: $newEventDurationHours, in: 0...24) {
-                                }
-                        }
-                
-                        VStack{
-                            Text("\(newEventDurationMinutes)m")
-                            Stepper(value: $newEventDurationMinutes, in: 0...59) {
-                            }
-                        }
-                    }
+                   
+                    // Duration
+                    DurationSelectorView(selectedHours: $newEventDurationHours, selectedMinutes: $newEventDurationMinutes)
 
                     .padding(.horizontal)
 
@@ -107,7 +91,8 @@ struct NewEventView: View {
             title: newEventTitle,
             description: newEventDescription,
             date: newEventDate,
-            duration: Double(newEventDurationHours * 60 + newEventDurationMinutes) / 60.0,
+            hours: newEventDurationHours,
+            minutes: newEventDurationMinutes,
             type: newEventType
         )
 
@@ -119,18 +104,5 @@ struct NewEventView: View {
     private func saveEventsToUserDefaults() {
         let data = try? JSONEncoder().encode(events)
         UserDefaults.standard.set(data, forKey: "savedEvents")
-    }
-    
-    struct NewEventView_Previews: PreviewProvider {
-        static var previews: some View {
-            NewEventView(events: .constant([EventItem(
-                id: UUID(),
-                title: "Title",
-                description: "Description in one or many sentences",
-                date: Date.now,
-                duration: 1.5,
-                type: .privat
-            )]))
-        }
     }
 }

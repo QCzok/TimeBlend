@@ -4,7 +4,7 @@ import SwiftUI
 
 struct EventRow: View {
     
-    let item: EventItem
+    @State var item: EventItem
     
     public var formattedDate: String {
         let dateFormatter = DateFormatter()
@@ -45,7 +45,7 @@ struct EventRow: View {
     }
     
     var body: some View {
-        NavigationLink(destination: EventDetailView(event: item)) {
+        NavigationLink(destination: EventDetailView(event: $item)) {
             HStack {
                 VStack() {
                     Image(systemName: item.type == .work ? "briefcase" : "person.2")
@@ -72,11 +72,5 @@ struct EventRow: View {
         .padding()
         .background(Color(.systemGray6))
         .cornerRadius(10)
-    }
-}
-
-struct EventRow_Previews: PreviewProvider {
-    static var previews: some View {
-        EventRow(item: EventItem(title: "Birthday Party", description: "Johnny  is getting 30", date: Date.now, duration: 3.0, type: .privat))
     }
 }

@@ -12,7 +12,8 @@ struct EventItem: Codable, Hashable {
     var title: String
     var description: String
     var date: Date
-    var duration: Double
+    var hours: Int
+    var minutes: Int
     var type: EventType
 }
 
