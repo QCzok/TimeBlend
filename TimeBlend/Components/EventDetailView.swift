@@ -23,8 +23,7 @@ struct EventDetailView: View {
                 Image(systemName: "calendar")
                     .foregroundColor(.blue)
                 
-                Text(formattedDate)
-                    .font(.subheadline)
+                DateVisualizer(date: event.date)
             }
             
             HStack {
@@ -54,6 +53,14 @@ struct EventDetailView: View {
                     .font(.subheadline)
             }
             
+            HStack {
+                Image(systemName: "location.fill")
+                    .foregroundColor(.blue)
+                
+                Text(event.location)
+                    .font(.subheadline)
+            }
+            
             Spacer()
         }
         .padding()
@@ -65,15 +72,6 @@ struct EventDetailView: View {
         NavigationLink(destination: EditEventView(event: $event)) { // Pass a binding to the editedEvent
             Text("Edit")
         }
-    }
-
-    
-    private var formattedDate: String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        dateFormatter.timeStyle = .none
-        dateFormatter.locale = Locale.current
-        return dateFormatter.string(from: event.date)
     }
     
     private var formattedTime: String {

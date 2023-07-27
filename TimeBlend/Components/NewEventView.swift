@@ -13,6 +13,10 @@ struct NewEventView: View {
     @State var newEventDurationHours = 0
     @State var newEventDurationMinutes = 0
     @State var newEventType: EventType = .work
+    @State var newEventIconName = "briefcase" // Default icon name
+    @State var newEventBackgroundColor = Color.blue // Default background color
+    @State var newEventLocation = ""
+    
     
     var body: some View {
         NavigationView {
@@ -28,19 +32,13 @@ struct NewEventView: View {
                     .padding(.horizontal)
 
                     // Event Description
-                    HStack {
-                        Image(systemName: "text.bubble.fill")
-                            .foregroundColor(.blue)
-                        TextField("Event Description", text: $newEventDescription)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                    }
-                    .padding(.horizontal)
+                    DescriptionSelectorView(selectedDescription: $newEventDescription)
 
                     // Event Date and Time
                     HStack {
                         Image(systemName: "calendar")
                             .foregroundColor(.blue)
-                        DatePicker("Event Date and Time", selection: $newEventDate, displayedComponents: [.date, .hourAndMinute])
+                        DatePicker("Event Date", selection: $newEventDate, displayedComponents: [.date, .hourAndMinute])
                             .datePickerStyle(DefaultDatePickerStyle())
                     }
                     .padding(.horizontal)
@@ -62,6 +60,15 @@ struct NewEventView: View {
                         .pickerStyle(SegmentedPickerStyle())
                     }
                     .padding(.horizontal)
+                    
+                    // Event Location
+                        HStack {
+                            Image(systemName: "location.fill")
+                                .foregroundColor(.blue)
+                            TextField("Event Location", text: $newEventLocation)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                        }
+                        .padding(.horizontal)
 
                     // Save Button
                     Button(action: saveEvent) {
@@ -93,7 +100,8 @@ struct NewEventView: View {
             date: newEventDate,
             hours: newEventDurationHours,
             minutes: newEventDurationMinutes,
-            type: newEventType
+            type: newEventType,
+            location: newEventLocation // Add the location to the newEvent
         )
 
         events.append(newEvent)

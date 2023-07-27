@@ -5,6 +5,7 @@ import SwiftUI
 struct EventItemList: View {
     @State private var events: [EventItem] = []
     @State private var selectedFilter: EventTypeFilter = .all
+    @State private var isRefreshing: Bool = false // Track the refreshing state
 
     var filteredEvents: [EventItem] {
         switch selectedFilter {
@@ -67,6 +68,14 @@ struct EventItemList: View {
                 .listStyle(PlainListStyle())
                 .onAppear {
                     loadEventsFromUserDefaults()
+                }
+                .refreshable {
+                    loadEventsFromUserDefaults()
+                    
+                    // Finish the refreshing state
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        isRefreshing = false
+                    }
                 }
             }
             .toolbar {

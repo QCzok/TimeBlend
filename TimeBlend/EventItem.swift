@@ -6,15 +6,17 @@
 //
 
 import Foundation
+import CoreLocation
 
-struct EventItem: Codable, Hashable {
-    var id: UUID?
+struct EventItem: Identifiable, Hashable, Codable {
+    var id: UUID
     var title: String
     var description: String
     var date: Date
     var hours: Int
     var minutes: Int
     var type: EventType
+    var location: String
 }
 
 enum EventType: String, Codable {

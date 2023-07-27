@@ -8,32 +8,37 @@
 import SwiftUI
 
 struct DurationSelectorView: View {
-    
     @Binding var selectedHours: Int
     @Binding var selectedMinutes: Int
-    
+
     var body: some View {
         VStack {
-            HStack{
+            HStack {
                 Image(systemName: "clock.fill")
                     .foregroundColor(.blue)
-                Text("Event Duration:")
+                    .font(.title2)
+
+                Text("Duration:")
                     .foregroundColor(.primary)
-                Spacer()
-            }
-            VStack{
-                HStack{
-                    Text("\(selectedHours)h")
-                    Stepper(value: $selectedHours, in: 0...24) {
+                    .font(.headline)
+
+                Picker("", selection: $selectedHours) {
+                    ForEach(0..<25, id: \.self) { hour in
+                        Text("\(hour)h")
                     }
                 }
-                
-                HStack {
-                    Text("\(selectedMinutes)m")
-                    Stepper(value: $selectedMinutes, in: 0...59, step: 5) {
+                .pickerStyle(WheelPickerStyle())
+                .frame(width: 60,  height: 100)
+
+                Picker("", selection: $selectedMinutes) {
+                    ForEach(0..<60, id: \.self) { minute in
+                        Text("\(minute)m")
                     }
                 }
+                .pickerStyle(WheelPickerStyle())
+                .frame(width: 60, height: 100) // Adjust the width of the minutes picker
             }
+            .cornerRadius(10)
         }
     }
 }

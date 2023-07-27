@@ -5,25 +5,15 @@ import SwiftUI
 struct EventRow: View {
     
     @State var item: EventItem
+    @State private var timeLeftText = ""
+    @State private var weatherIcon: Image? // Store the weather icon as a state variable
     
-    public var formattedDate: String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
-        dateFormatter.timeStyle = .none
-        return dateFormatter.string(from: item.date)
-    }
-    
-    public var dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .short
-        return formatter
-    }()
+    private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     public func timeLeft(from date: Date) -> String {
         let currentTime = Date()
         let timeLeft = date.timeIntervalSince(currentTime)
-
+        
         if timeLeft < 0 {
             return "Event has started"
         } else {
@@ -31,7 +21,7 @@ struct EventRow: View {
             let days = components.day ?? 0
             let hours = components.hour ?? 0
             let minutes = components.minute ?? 0
-
+            
             if days > 0 {
                 return "\(days) day\(days == 1 ? "" : "s") left"
             } else {
@@ -46,31 +36,45 @@ struct EventRow: View {
     
     var body: some View {
         NavigationLink(destination: EventDetailView(event: $item)) {
-            HStack {
-                VStack() {
-                    Image(systemName: item.type == .work ? "briefcase" : "person.2")
-                        .foregroundColor(item.type == .work ? .blue : .green) // Customize the color as needed
-                    HStack(){
-                        Text(timeLeft(from: item.date))
-                    }
-                    HStack(){
-                        Spacer()
-                        Text(item.title)
-                            .multilineTextAlignment(.leading)
-                            .fontWeight(.bold)
-                            .font(.title)
-                        Spacer()
-                    }
-                    .foregroundColor(.black)
-                    HStack{
-                        Text(formattedDate)
-                    }
-                }
+            HStack(spacing: 16) {
+                Image(systemName: item.type == .work ? "briefcase" : "person.2")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 30)
+                    .foregroundColor(item.type == .work ? .blue : .green)
+                    .cornerRadius(8)
+                    .padding(8)
                 
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack {
+                        Text(timeLeftText)
+                            .font(.subheadline)
+                            .onAppear {
+                                // Recalculate the time left when the view appears for the first time
+                                timeLeftText = timeLeft(from: item.date)
+                            }
+                            .onReceive(timer) { _ in
+                                // Update the time left every second
+                                timeLeftText = timeLeft(from: item.date)
+                            }
+                        Spacer()
+                    }
+                    
+                    Text(item.title)
+                        .font(.headline)
+                        .multilineTextAlignment(.leading)
+                    
+                    DateVisualizer(date: item.date)
+                }
             }
+            .padding()
+            .background(Color.snowWhite)
+            .cornerRadius(10)
+            .shadow(radius: 4)
         }
-        .padding()
-        .background(Color(.systemGray6))
-        .cornerRadius(10)
     }
+}
+
+extension Color {
+    static let snowWhite = Color(red: 0.99, green: 0.99, blue: 0.99)
 }

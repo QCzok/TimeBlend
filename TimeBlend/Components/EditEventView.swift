@@ -12,6 +12,7 @@ struct EditEventView: View {
         @State private var editedHours: Int
         @State private var editedMinutes: Int
         @State private var editedType: EventType
+        @State private var editedLocation: String
         
         init(event: Binding<EventItem>) {
             _event = event
@@ -22,6 +23,7 @@ struct EditEventView: View {
             _editedHours = State(initialValue: initialEvent.hours)
             _editedMinutes = State(initialValue: initialEvent.minutes)
             _editedType = State(initialValue: initialEvent.type)
+            _editedLocation = State(initialValue: initialEvent.location)
         }
     
     var body: some View {
@@ -38,19 +40,13 @@ struct EditEventView: View {
                     .padding(.horizontal)
 
                     // Event Description
-                    HStack {
-                        Image(systemName: "text.bubble.fill")
-                            .foregroundColor(.blue)
-                        TextField("Event Description", text: $editedDescription)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                    }
-                    .padding(.horizontal)
+                    DescriptionSelectorView(selectedDescription: $editedDescription)
 
                     // Event Date and Time
                     HStack {
                         Image(systemName: "calendar")
                             .foregroundColor(.blue)
-                        DatePicker("Event Date and Time", selection: $editedDate, displayedComponents: [.date, .hourAndMinute])
+                        DatePicker("Event Date", selection: $editedDate, displayedComponents: [.date, .hourAndMinute])
                             .datePickerStyle(DefaultDatePickerStyle())
                     }
                     .padding(.horizontal)
@@ -71,6 +67,15 @@ struct EditEventView: View {
                         .pickerStyle(SegmentedPickerStyle())
                     }
                     .padding(.horizontal)
+                    
+                    // Event Location
+                        HStack {
+                            Image(systemName: "location.fill")
+                                .foregroundColor(.blue)
+                            TextField("Event Location", text: $editedLocation)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                        }
+                        .padding(.horizontal)
 
                     // Save Button
                     Button(action: saveEvent) {
@@ -102,6 +107,7 @@ struct EditEventView: View {
         $event.wrappedValue.hours = editedHours
         $event.wrappedValue.minutes = editedMinutes
         $event.wrappedValue.type = editedType
+        $event.wrappedValue.location = editedLocation
         
         saveEventsToUserDefaults()
         
