@@ -1,5 +1,3 @@
-// EventItemList.swift
-
 import SwiftUI
 
 struct EventItemList: View {
@@ -40,7 +38,6 @@ struct EventItemList: View {
         saveEventsToUserDefaults()
     }
 
-
     var body: some View {
         NavigationView {
             VStack {
@@ -53,8 +50,20 @@ struct EventItemList: View {
                 .padding(.horizontal)
                 
                 List {
-                    ForEach(filteredEvents, id: \.self) { event in
+                    ForEach(filteredEvents, id: \.id) { event in
                         HStack {
+                            Image(systemName: event.isMarked ? "star.fill" : "star")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 15)
+                                .foregroundColor(event.isMarked ? .yellow : .gray)
+                                .onTapGesture {
+                                    events[index(for: event)].isMarked.toggle()
+                                    saveEventsToUserDefaults()
+                                }
+                                .cornerRadius(4)
+                                .shadow(radius: 2)
+                            
                             VStack {
                                 EventRow(item: event)
                             }
@@ -93,6 +102,10 @@ struct EventItemList: View {
         case privateEvent = "Private"
         case work
     }
+    
+    private func index(for event: EventItem) -> Int {
+        events.firstIndex { $0.id == event.id } ?? 0
+    }
 }
 
 struct EventItemList_Previews: PreviewProvider {
@@ -100,3 +113,4 @@ struct EventItemList_Previews: PreviewProvider {
         EventItemList()
     }
 }
+

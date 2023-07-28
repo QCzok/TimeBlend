@@ -101,7 +101,8 @@ struct NewEventView: View {
             hours: newEventDurationHours,
             minutes: newEventDurationMinutes,
             type: newEventType,
-            location: newEventLocation // Add the location to the newEvent
+            location: newEventLocation,
+            isMarked: false
         )
 
         events.append(newEvent)

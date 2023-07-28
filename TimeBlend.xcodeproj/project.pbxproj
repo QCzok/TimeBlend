@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		693F06122A72B63100FFF1BA /* DateVisualizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693F06112A72B63100FFF1BA /* DateVisualizer.swift */; };
+		695E03D02A73F27200906460 /* EventDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695E03CF2A73F27200906460 /* EventDataManager.swift */; };
 		6966BB7F2A6FE02600167CE0 /* EventDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6966BB7E2A6FE02600167CE0 /* EventDetailView.swift */; };
 		6966BB812A6FEE2300167CE0 /* NewEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6966BB802A6FEE2300167CE0 /* NewEventView.swift */; };
 		697534F12A728DEB007BC7FA /* DescriptionSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697534F02A728DEB007BC7FA /* DescriptionSelectorView.swift */; };
@@ -44,6 +45,7 @@
 
 /* Begin PBXFileReference section */
 		693F06112A72B63100FFF1BA /* DateVisualizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateVisualizer.swift; sourceTree = "<group>"; };
+		695E03CF2A73F27200906460 /* EventDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDataManager.swift; sourceTree = "<group>"; };
 		6966BB7E2A6FE02600167CE0 /* EventDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailView.swift; sourceTree = "<group>"; };
 		6966BB802A6FEE2300167CE0 /* NewEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewEventView.swift; sourceTree = "<group>"; };
 		697534F02A728DEB007BC7FA /* DescriptionSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionSelectorView.swift; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 		69B2F9262A6E974700379EC9 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				695E03CF2A73F27200906460 /* EventDataManager.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -312,6 +315,7 @@
 				69B2F8FA2A6E790C00379EC9 /* TimeBlendView.swift in Sources */,
 				69FFF1EA2A712C6C0081385E /* EditEventView.swift in Sources */,
 				69B2F8F82A6E790C00379EC9 /* TimeBlendApp.swift in Sources */,
+				695E03D02A73F27200906460 /* EventDataManager.swift in Sources */,
 				69B2F92F2A6EA56300379EC9 /* EventRow.swift in Sources */,
 				693F06122A72B63100FFF1BA /* DateVisualizer.swift in Sources */,
 				6966BB812A6FEE2300167CE0 /* NewEventView.swift in Sources */,

@@ -17,6 +17,8 @@ struct EventItem: Identifiable, Hashable, Codable {
     var minutes: Int
     var type: EventType
     var location: String
+    var isMarked: Bool
+
 }
 
 enum EventType: String, Codable {

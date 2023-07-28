@@ -10,6 +10,9 @@ struct EventRow: View {
     
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
+    @State private var isDetailViewActive = false // State variable to control the navigation
+
+    
     public func timeLeft(from date: Date) -> String {
         let currentTime = Date()
         let timeLeft = date.timeIntervalSince(currentTime)
@@ -35,7 +38,11 @@ struct EventRow: View {
     }
     
     var body: some View {
-        NavigationLink(destination: EventDetailView(event: $item)) {
+        // Wrap the HStack with a NavigationLink
+         NavigationLink(destination: EventDetailView(event: $item), isActive: $isDetailViewActive) {
+             EmptyView()
+         }
+         .hidden() // Hide the navigation link, we'll trigger it manually
             HStack(spacing: 16) {
                 Image(systemName: item.type == .work ? "briefcase" : "person.2")
                     .resizable()
@@ -71,9 +78,13 @@ struct EventRow: View {
             .background(Color.snowWhite)
             .cornerRadius(10)
             .shadow(radius: 4)
+            .onTapGesture {
+
+                            isDetailViewActive = true // Set the state variable to true to trigger the navigation
+                        }
+                    
         }
     }
-}
 
 extension Color {
     static let snowWhite = Color(red: 0.99, green: 0.99, blue: 0.99)
