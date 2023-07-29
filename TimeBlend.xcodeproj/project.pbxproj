@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		690DAAB82A746CE7008C4744 /* SendEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690DAAB72A746CE7008C4744 /* SendEventView.swift */; };
 		690DAABA2A746DA8008C4744 /* LocationVisualizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690DAAB92A746DA8008C4744 /* LocationVisualizer.swift */; };
+		691A67792A75960200F68FFC /* TimeCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691A67782A75960200F68FFC /* TimeCalculator.swift */; };
 		693F06122A72B63100FFF1BA /* DateVisualizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 693F06112A72B63100FFF1BA /* DateVisualizer.swift */; };
 		695E03D02A73F27200906460 /* EventDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695E03CF2A73F27200906460 /* EventDataManager.swift */; };
 		6966BB7F2A6FE02600167CE0 /* EventDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6966BB7E2A6FE02600167CE0 /* EventDetailView.swift */; };
@@ -54,6 +55,7 @@
 /* Begin PBXFileReference section */
 		690DAAB72A746CE7008C4744 /* SendEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendEventView.swift; sourceTree = "<group>"; };
 		690DAAB92A746DA8008C4744 /* LocationVisualizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationVisualizer.swift; sourceTree = "<group>"; };
+		691A67782A75960200F68FFC /* TimeCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeCalculator.swift; sourceTree = "<group>"; };
 		693F06112A72B63100FFF1BA /* DateVisualizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateVisualizer.swift; sourceTree = "<group>"; };
 		695E03CF2A73F27200906460 /* EventDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDataManager.swift; sourceTree = "<group>"; };
 		6966BB7E2A6FE02600167CE0 /* EventDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailView.swift; sourceTree = "<group>"; };
@@ -233,6 +235,7 @@
 			children = (
 				69B2F8FB2A6E790D00379EC9 /* Assets.xcassets */,
 				695E03CF2A73F27200906460 /* EventDataManager.swift */,
+				691A67782A75960200F68FFC /* TimeCalculator.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -386,6 +389,7 @@
 				69B2F9252A6E972800379EC9 /* EventItemList.swift in Sources */,
 				696B9FDC2A7564CA00080565 /* LocationSelectorView.swift in Sources */,
 				69FFF1ED2A712F850081385E /* DurationSelectorView.swift in Sources */,
+				691A67792A75960200F68FFC /* TimeCalculator.swift in Sources */,
 				6966BB7F2A6FE02600167CE0 /* EventDetailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -542,12 +546,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"TimeBlend/Preview Content\"";
 				DEVELOPMENT_TEAM = 562K4723ZU;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = TimeBlend;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -571,12 +578,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"TimeBlend/Preview Content\"";
 				DEVELOPMENT_TEAM = 562K4723ZU;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = TimeBlend;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

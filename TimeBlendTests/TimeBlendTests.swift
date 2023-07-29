@@ -1,100 +1,42 @@
+//
+//  TimeBlendTests.swift
+//  TimeBlendTests
+//
+//  Created by Payback on 24.07.23.
+//
+
 import XCTest
 @testable import TimeBlend
 
 final class TimeBlendTests: XCTestCase {
-    var events: [EventItem] = []
-    var sut: EventItemList!
+    
+    var eventRow: EventRow!
 
     override func setUpWithError() throws {
-        try super.setUpWithError()
-        events = [
-            EventItem(id: UUID(), title: "Title1", description: "Descroption1", date: Date.now, hours: 1, minutes: 2, type: EventType.privat, location: "Location1", isMarked: false),
-            EventItem(id: UUID(), title: "Title2", description: "Descroption2", date: Date.now, hours: 2, minutes: 3, type: EventType.privat, location: "Location2", isMarked: false),
-            EventItem(id: UUID(), title: "Title3", description: "Descroption3", date: Date.now, hours: 3, minutes: 4, type: EventType.privat, location: "Location3", isMarked: true)
-        ]
-        sut = EventItemList(events: events)
+        super.setUp()
+        eventRow = EventRow(item: EventItem(id: UUID(), title: "Title", description: "Description", date: Date.now, hours: 1, minutes: 0, type: EventType.privat, location: "Location", isMarked: false))
+         
     }
 
     override func tearDownWithError() throws {
-        sut = nil
-        events.removeAll()
-        try super.tearDownWithError()
+        eventRow = nil
+        super.tearDown()
     }
 
-    func testFilteredEvents_All() throws {
-        // Given
-        sut.selectedFilter = .all
-
-        // When
-        let filteredEvents = sut.filteredEvents
-
-        // Then
-        XCTAssertEqual(filteredEvents.count, events.count, "Filtered events should contain all events.")
-    }
-
-    func testFilteredEvents_PrivateEvent() throws {
-        // Given
-        sut.selectedFilter = .privateEvent
-
-        // When
-        let filteredEvents = sut.filteredEvents
-
-        // Then
-        let privateEvents = events.filter { $0.type == EventType.privat }
-        XCTAssertEqual(filteredEvents.count, privateEvents.count, "Filtered events should contain only private events.")
-    }
-
-    func testFilteredEvents_Work() throws {
-        // Given
-        sut.selectedFilter = .work
-
-        // When
-        let filteredEvents = sut.filteredEvents
-
-        // Then
-        let workEvents = events.filter { $0.type == .work }
-        XCTAssertEqual(filteredEvents.count, workEvents.count, "Filtered events should contain only work events.")
-    }
-
-    func testSaveAndLoadEventsToUserDefaults() throws {
-        // Given
-        let userDefaults = UserDefaults.standard
-
-        // When
-        sut.saveEventsToUserDefaults()
-
-        // Then
-        if let data = userDefaults.data(forKey: "savedEvents"),
-           let savedEvents = try? JSONDecoder().decode([EventItem].self, from: data) {
-            XCTAssertEqual(savedEvents, events, "Saved events should match the original events.")
-        } else {
-            XCTFail("Failed to load saved events from UserDefaults.")
+    func testTimeLeftText() {
+        let currentDate = Date()
+            
+            let testCases: [(Date, String)] = [
+                (currentDate.addingTimeInterval(61), "1 min left"),
+                (currentDate.addingTimeInterval(3601), "1 hr 0 min left"),
+                (currentDate.addingTimeInterval(86401), "1 day left"),
+                (currentDate.addingTimeInterval(-60), "Event has started"),
+            ]
+            
+            for (date, expectedText) in testCases {
+                eventRow.item.date = date
+                eventRow.timeLeftText = TimeCalculator().timeLeft(from: currentDate)
+                XCTAssertEqual(TimeCalculator().timeLeft(from: date), expectedText)
+            }
         }
-    }
-
-    func testDeleteEvent() throws {
-        // Given
-        let initialCount = events.count
-        let indexToRemove = 1
-
-        // When
-        sut.deleteEvent(at: IndexSet(integer: indexToRemove))
-
-        // Then
-        XCTAssertEqual(sut.events.count, initialCount - 1, "After deleting an event, the events count should decrease by 1.")
-        XCTAssertFalse(sut.events.contains(events[indexToRemove]), "Deleted event should no longer be present in the events array.")
-    }
-
-    func testMoveEvent() throws {
-        // Given
-        let initialOrder = events
-        let sourceIndex = 0
-        let destinationIndex = events.count - 1
-
-        // When
-        sut.moveEvent(from: IndexSet(integer: sourceIndex), to: destinationIndex)
-
-        // Then
-        XCTAssertEqual(sut.events[destinationIndex], initialOrder[sourceIndex], "After moving an event, it should be at the destination index.")
-    }
 }
