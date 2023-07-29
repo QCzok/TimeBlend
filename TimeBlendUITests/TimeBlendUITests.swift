@@ -1,9 +1,3 @@
-//
-//  TimeBlendUITests.swift
-//  TimeBlendUITests
-//
-//  Created by Payback on 24.07.23.
-//
 
 import XCTest
 

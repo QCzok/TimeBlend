@@ -1,10 +1,3 @@
-//
-//  LocationVisualizer.swift
-//  TimeBlend
-//
-//  Created by Payback on 28.07.23.
-//
-
 import SwiftUI
 
 struct LocationVisualizer: View {

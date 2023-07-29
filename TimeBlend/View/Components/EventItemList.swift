@@ -2,8 +2,8 @@ import SwiftUI
 
 struct EventItemList: View {
     @State private var events: [EventItem] = []
-    @State private var selectedFilter: EventTypeFilter = .all
-    @State private var isRefreshing: Bool = false // Track the refreshing state
+    @State var selectedFilter: EventTypeFilter = .all
+    @State private var isRefreshing: Bool = false
     @State var searchText: String = ""
 
     var filteredEvents: [EventItem] {
@@ -23,26 +23,14 @@ struct EventItemList: View {
         }
     }
     
-    private func saveEventsToUserDefaults() {
-        let data = try? JSONEncoder().encode(events)
-        UserDefaults.standard.set(data, forKey: "savedEvents")
-    }
-
-    private func loadEventsFromUserDefaults() {
-        if let data = UserDefaults.standard.data(forKey: "savedEvents"),
-           let savedEvents = try? JSONDecoder().decode([EventItem].self, from: data) {
-            events = savedEvents
-        }
-    }
-
     private func deleteEvent(at offsets: IndexSet) {
         events.remove(atOffsets: offsets)
-        saveEventsToUserDefaults()
+        EventDataManager().saveEventItems(events)
     }
     
     private func moveEvent(from source: IndexSet, to destination: Int) {
         events.move(fromOffsets: source, toOffset: destination)
-        saveEventsToUserDefaults()
+        EventDataManager().saveEventItems(events)
     }
 
     var body: some View {
@@ -69,7 +57,7 @@ struct EventItemList: View {
                                 .foregroundColor(event.isMarked ? .yellow : .gray)
                                 .onTapGesture {
                                     events[index(for: event)].isMarked.toggle()
-                                    saveEventsToUserDefaults()
+                                    EventDataManager().saveEventItems(events)
                                 }
                                 .cornerRadius(4)
                                 .shadow(radius: 2)
@@ -86,15 +74,7 @@ struct EventItemList: View {
                 }
                 .listStyle(PlainListStyle())
                 .onAppear {
-                    loadEventsFromUserDefaults()
-                }
-                .refreshable {
-                    loadEventsFromUserDefaults()
-                    
-                    // Finish the refreshing state
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        isRefreshing = false
-                    }
+                    events = EventDataManager().loadEventItems()
                 }
             }
             .toolbar {

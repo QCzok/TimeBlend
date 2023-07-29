@@ -1,9 +1,3 @@
-//
-//  DurationView.swift
-//  TimeBlend
-//
-//  Created by Payback on 26.07.23.
-//
 
 import SwiftUI
 
@@ -39,6 +33,6 @@ struct DurationSelectorView: View {
                 .frame(width: 60, height: 100) // Adjust the width of the minutes picker
             }
             .cornerRadius(10)
-        }
+        }.padding(.horizontal)
     }
 }
