@@ -32,6 +32,10 @@ struct EventItemList: View {
         events.move(fromOffsets: source, toOffset: destination)
         EventDataManager().saveEventItems(events)
     }
+    
+    private func index(for event: EventItem) -> Int {
+        events.firstIndex { $0.id == event.id } ?? 0
+    }
 
     var body: some View {
         NavigationView {
@@ -85,15 +89,5 @@ struct EventItemList: View {
                 }
             }
         }
-    }
-    
-    enum EventTypeFilter: String, CaseIterable {
-        case all
-        case privateEvent = "Private"
-        case work
-    }
-    
-    private func index(for event: EventItem) -> Int {
-        events.firstIndex { $0.id == event.id } ?? 0
     }
 }

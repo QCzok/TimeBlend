@@ -5,7 +5,7 @@ import MessageUI
 
 struct EventDetailView: View {
     
-    @Binding var event: EventItem // Changed to a Binding
+    @Binding var event: EventItem
     
     private var titleSection: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -36,8 +36,7 @@ struct EventDetailView: View {
             Image(systemName: "clock")
                 .foregroundColor(.blue)
 
-            Text(formattedTime)
-                .font(.subheadline)
+            TimeVisualizer(time: event.date)
         }
     }
 
@@ -53,7 +52,6 @@ struct EventDetailView: View {
 
     private var durationSection: some View {
         HStack {
-            // Icon for duration
             Image(systemName: "clock.fill")
                 .foregroundColor(.blue)
 
@@ -61,10 +59,15 @@ struct EventDetailView: View {
                 .font(.subheadline)
         }
     }
+    
+    private var editButton: some View {
+        NavigationLink(destination: EditEventView(event: $event)) {
+            Text("Edit")
+        }
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            // Use the computed properties in the main body
             titleSection
             dateSection
             timeSection
@@ -83,20 +86,6 @@ struct EventDetailView: View {
         .padding()
         .navigationBarTitle("Event Detail", displayMode: .inline)
         .navigationBarItems(trailing: editButton)
-    }
-    
-    private var editButton: some View {
-        NavigationLink(destination: EditEventView(event: $event)) { // Pass a binding to the editedEvent
-            Text("Edit")
-        }
-    }
-    
-    private var formattedTime: String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .none
-        dateFormatter.timeStyle = .short
-        dateFormatter.locale = Locale.current
-        return dateFormatter.string(from: event.date)
     }
 }
 
