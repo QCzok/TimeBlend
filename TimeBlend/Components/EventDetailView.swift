@@ -1,71 +1,88 @@
 
 
 import SwiftUI
+import MessageUI
 
 struct EventDetailView: View {
     
     @Binding var event: EventItem // Changed to a Binding
     
-    var body: some View {
+    private var titleSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text(event.title)
                 .font(.largeTitle)
                 .fontWeight(.bold)
-            
+
             Text(event.description)
                 .font(.body)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.leading)
-            
+
             Divider()
-            
-            HStack {
-                Image(systemName: "calendar")
-                    .foregroundColor(.blue)
-                
-                DateVisualizer(date: event.date)
-            }
-            
-            HStack {
-                Image(systemName: "clock")
-                    .foregroundColor(.blue)
-                
-                Text(formattedTime)
-                    .font(.subheadline)
-            }
-            
+        }
+    }
+
+    private var dateSection: some View {
+        HStack {
+            Image(systemName: "calendar")
+                .foregroundColor(.blue)
+
+            DateVisualizer(date: event.date)
+        }
+    }
+
+    private var timeSection: some View {
+        HStack {
+            Image(systemName: "clock")
+                .foregroundColor(.blue)
+
+            Text(formattedTime)
+                .font(.subheadline)
+        }
+    }
+
+    private var typeSection: some View {
+        HStack {
+            Image(systemName: "tag")
+                .foregroundColor(.blue)
+
+            Text(event.type.rawValue.capitalized)
+                .font(.subheadline)
+        }
+    }
+
+    private var durationSection: some View {
+        HStack {
+            // Icon for duration
+            Image(systemName: "clock.fill")
+                .foregroundColor(.blue)
+
+            Text("\(event.hours)h \(event.minutes)m")
+                .font(.subheadline)
+        }
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            // Use the computed properties in the main body
+            titleSection
+            dateSection
+            timeSection
+
             Divider()
-            
-            HStack {
-                Image(systemName: "tag")
-                    .foregroundColor(.blue)
-                
-                Text(event.type.rawValue.capitalized)
-                    .font(.subheadline)
-            }
-            
-            HStack {
-                // Icon for duration
-                Image(systemName: "clock.fill")
-                    .foregroundColor(.blue)
-                
-                Text(String(event.hours) + "h " + String(event.minutes) + "m")
-                    .font(.subheadline)
-            }
-            
-            HStack {
-                Image(systemName: "location.fill")
-                    .foregroundColor(.blue)
-                
-                Text(event.location)
-                    .font(.subheadline)
-            }
-            
+
+            typeSection
+            durationSection
+
+            LocationVisualizer(event: event)
+
             Spacer()
+            
+            SendEventView(event: event)
         }
         .padding()
         .navigationBarTitle("Event Detail", displayMode: .inline)
-        .navigationBarItems(trailing: editButton) // Add the "Edit" button
+        .navigationBarItems(trailing: editButton)
     }
     
     private var editButton: some View {

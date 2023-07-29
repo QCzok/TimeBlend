@@ -4,15 +4,22 @@ struct EventItemList: View {
     @State private var events: [EventItem] = []
     @State private var selectedFilter: EventTypeFilter = .all
     @State private var isRefreshing: Bool = false // Track the refreshing state
+    @State var searchText: String = ""
 
     var filteredEvents: [EventItem] {
+        var filteredEvents = events
+
+        if !searchText.isEmpty {
+            filteredEvents = filteredEvents.filter { $0.title.localizedCaseInsensitiveContains(searchText) }
+        }
+
         switch selectedFilter {
         case .all:
-            return events
+            return filteredEvents
         case .privateEvent:
-            return events.filter { $0.type == .privat }
+            return filteredEvents.filter { $0.type == .privat }
         case .work:
-            return events.filter { $0.type == .work }
+            return filteredEvents.filter { $0.type == .work }
         }
     }
     
@@ -41,6 +48,7 @@ struct EventItemList: View {
     var body: some View {
         NavigationView {
             VStack {
+                
                 Picker("Filter", selection: $selectedFilter) {
                     Text("All").tag(EventTypeFilter.all)
                     Text("Private").tag(EventTypeFilter.privateEvent)
@@ -48,6 +56,8 @@ struct EventItemList: View {
                 }
                 .pickerStyle(SegmentedPickerStyle())
                 .padding(.horizontal)
+                
+                SearchBarView(searchText: $searchText).padding(.top)
                 
                 List {
                     ForEach(filteredEvents, id: \.id) { event in
@@ -63,7 +73,7 @@ struct EventItemList: View {
                                 }
                                 .cornerRadius(4)
                                 .shadow(radius: 2)
-                            
+                                .padding(.trailing, 8)
                             VStack {
                                 EventRow(item: event)
                             }
@@ -107,10 +117,3 @@ struct EventItemList: View {
         events.firstIndex { $0.id == event.id } ?? 0
     }
 }
-
-struct EventItemList_Previews: PreviewProvider {
-    static var previews: some View {
-        EventItemList()
-    }
-}
-
