@@ -1,0 +1,4 @@
+"EventStarted" = "Das Ereignis hat begonnen";
+"DaysLeft" = "Noch %d Tag%@";
+"HoursMinutesLeft" = "Noch %d Std %d Min";
+"MinutesLeft" = "Noch %d Min";
